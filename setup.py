@@ -13,7 +13,7 @@ setup(name='Motif-aware PRALINE',
       author = 'Maurits Dijkstra',
       author_email = 'm.j.j.dijkstra@vu.nl',
       url = 'http://www.few.vu.nl/',
-      license = "Proprietary",
+      license = "MIT",
 
       install_requires = ['PRALINE>=1.0', 'pyparsing>=2.0', 'regex>=2.4.46'],
       packages = ['mapraline', 'mapraline.component'],
