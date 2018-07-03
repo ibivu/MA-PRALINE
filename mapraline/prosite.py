@@ -1,3 +1,5 @@
+from __future__ import division, absolute_import, print_function
+
 import regex as re
 
 from pyparsing import OneOrMore, ZeroOrMore, Suppress, Or, Literal, Group, Dict
@@ -55,16 +57,16 @@ def main():
     pattern = "<{ABC}(2)-x-x-x-F-[AB]-[CD](2,3)>"
 
     pat_tokens = PrositePattern.parseString(pattern)
-    print pat_tokens
+    print(pat_tokens)
     for token in pat_tokens:
-        print token.getName()
+        print(token.getName())
 
-    print pattern_to_re(pattern)
+    print(pattern_to_re(pattern))
 
 def pattern_to_re(pattern):
     convertor = ParseTreeConvertor()
     pattern_tokens = PrositePattern.parseString(pattern)
-    
+
     return re.compile(convertor(pattern_tokens))
 
 class ParseTreeConvertor(object):
@@ -75,7 +77,7 @@ class ParseTreeConvertor(object):
         name = tree.getName()
         if name == "Pattern":
             for subtree in tree:
-                return "".join([self(subtree) for subtree in tree])         
+                return "".join([self(subtree) for subtree in tree])
         elif name == "NTerminal":
             return "^"
         elif name == "CTerminal":

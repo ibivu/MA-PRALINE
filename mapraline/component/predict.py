@@ -1,4 +1,7 @@
+from __future__ import division, absolute_import, print_function
+
 import numpy as np
+from six.moves import range, zip
 
 from mapraline import *
 from mapraline.prosite import pattern_to_re
@@ -36,7 +39,7 @@ class PrositePatternAnnotator(Component):
         indices = track.values
         annotation_syms_list = []
         sym_list = []
-        for n in xrange(indices.shape[0]):
+        for n in range(indices.shape[0]):
             sym_list.append(track.alphabet.index_to_symbol(indices[n]))
         aa_syms = "".join(sym_list)
 
@@ -47,7 +50,7 @@ class PrositePatternAnnotator(Component):
                 match_starts_spacer = match.starts('spacer')
                 match_ends_spacer = match.ends('spacer')
                 for spacer_start, spacer_end in zip(match_starts_spacer, match_ends_spacer):
-                    for n in xrange(spacer_start, spacer_end):
+                    for n in range(spacer_start, spacer_end):
                         if annotation_syms[n] != 'M':
                             annotation_syms[n] = 'S'
             except IndexError:
@@ -56,7 +59,7 @@ class PrositePatternAnnotator(Component):
 
             # Then annotate anything that wasn't annotated as a spacer but did match
             # as a match.
-            for n in xrange(match.start(), match.end()):
+            for n in range(match.start(), match.end()):
                 if annotation_syms[n] == u'*':
                     annotation_syms[n] = u'M'
 
@@ -64,9 +67,9 @@ class PrositePatternAnnotator(Component):
 
         # Now collapse the individual annotation sequences into a single consensus sequence.
         consensus_annotation_syms = []
-        for n in xrange(indices.shape[0]):
+        for n in range(indices.shape[0]):
             consensus_sym = u'*'
-            for m in xrange(len(annotation_syms_list)):
+            for m in range(len(annotation_syms_list)):
                 if annotation_syms_list[m][n] == u'M':
                     consensus_sym = u'M'
                 elif annotation_syms_list[m][n] == u'S' and consensus_sym in [u'*', u'S']:

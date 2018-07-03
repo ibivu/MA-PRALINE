@@ -1,8 +1,14 @@
+from __future__ import division, absolute_import, print_function
+
 import codecs
 import csv
 
+from six.moves import range
+from six.moves import zip
+
 from praline.container import Alphabet, ScoreMatrix, PlainTrack
 from praline.core import *
+
 
 class MAPRALINEError(Exception):
     pass
@@ -17,7 +23,7 @@ def _generate_mappings(symbols):
     :returns: a list of 2-tuples containing the generated mapping between
         symbols and indices
     """
-    return zip(symbols, range(len(symbols)))
+    return list(zip(symbols, list(range(len(symbols)))))
 
 _SYM_PROSITE = [u'*', u'M', u'S']
 _MAP_PROSITE = _generate_mappings(_SYM_PROSITE)

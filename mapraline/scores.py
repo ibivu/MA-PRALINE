@@ -1,3 +1,5 @@
+from __future__ import division, absolute_import, print_function
+
 import sys
 import re
 import pickle
@@ -6,6 +8,7 @@ import os
 import os.path
 
 import numpy as np
+from six.moves import range
 
 from praline import load_score_matrix, window
 from praline.core import *
@@ -30,17 +33,17 @@ def main():
                                                   gap_penalties, 1.0, 0.0)
 
     #print aa_scores[0]
-    print sum(aa_scores[0])
-    print
+    print(sum(aa_scores[0]))
+    print()
     #print motif_scores
-    print sum(sum(track_scores) for track_scores in motif_scores)
+    print(sum(sum(track_scores) for track_scores in motif_scores))
 
 def get_aa_motif_scores(alignment_path, aa_score_matrix, gap_penalties,
                         motif_match_score, motif_mismatch_score):
     motif_score_matrix = get_prosite_score_matrix(motif_match_score,
                                                   motif_mismatch_score)
 
-    with file(alignment_path, 'rb') as fi:
+    with open(alignment_path, 'rb') as fi:
         alignment = pickle.load(fi)
 
     track_ids = []
@@ -59,7 +62,7 @@ def get_aa_motif_scores(alignment_path, aa_score_matrix, gap_penalties,
 def calc_sum_of_pairs(alignment, track_ids, score_matrix, gap_penalties):
     track_scores = []
     for track_idx, trid in enumerate(track_ids):
-        print track_idx + 1, len(track_ids)
+        print(track_idx + 1, len(track_ids))
 
         alphabet = None
         tracks = []
@@ -73,7 +76,7 @@ def calc_sum_of_pairs(alignment, track_ids, score_matrix, gap_penalties):
 
         path = alignment.path
         positions = []
-        for i, i_next in window(range(path.shape[0])):
+        for i, i_next in window(list(range(path.shape[0]))):
             inc_cols = (path[i_next, :]-path[i, :]) > 0
             position = []
             for j, inc_col in enumerate(inc_cols):
@@ -88,7 +91,7 @@ def calc_sum_of_pairs(alignment, track_ids, score_matrix, gap_penalties):
                     position.append(symbol)
                 else:
                     position.append(None)
-            
+
             positions.append(position)
 
         gap_lengths = precalc_gap_lengths(positions)
@@ -100,7 +103,7 @@ def calc_sum_of_pairs(alignment, track_ids, score_matrix, gap_penalties):
             for (idx_a, sym_a), (idx_b, sym_b) in itr:
                 if idx_a == idx_b:
                     continue
-                
+
                 # Need to make this a bit faster, so cache the gap penalty
                 # for a position instead of constantly looking it up.
                 cached_gap_penalties = {}
@@ -126,8 +129,8 @@ def calc_sum_of_pairs(alignment, track_ids, score_matrix, gap_penalties):
 def precalc_gap_lengths(positions):
     gap_lengths = np.empty((len(positions), len(positions[0])), dtype=np.uint32)
 
-    for n in xrange(gap_lengths.shape[0]):
-        for m in xrange(gap_lengths.shape[1]):
+    for n in range(gap_lengths.shape[0]):
+        for m in range(gap_lengths.shape[1]):
             if n == 0:
                 if positions[n][m] is None:
                     gap_lengths[n, m] = 1
@@ -149,4 +152,3 @@ def calc_gap_penalty(penalties, length):
 
 if __name__ == '__main__':
     main()
-

@@ -1,3 +1,5 @@
+from __future__ import division, absolute_import, print_function
+
 import sys
 import argparse
 import os
@@ -5,8 +7,10 @@ import uuid
 import shutil
 import tarfile
 import os.path
-import urlparse
 import pickle
+
+import six
+import six.moves.urllib.parse
 
 from mapraline import *
 from mapraline.component import PrositePatternAnnotator
@@ -92,7 +96,7 @@ def main():
                                              verbose, root_node)
     # Build score matrices.
     motif_score_matrices = {}
-    for trid, score in track_scores.iteritems():
+    for trid, score in six.iteritems(track_scores):
         if score is None:
             score = args.motif_match_score
 
@@ -149,7 +153,7 @@ def main():
 
     # Dump pickled alignment object if user asked for it.
     if args.dump_alignment is not None:
-        with file(args.dump_alignment, 'wb') as fo:
+        with open(args.dump_alignment, 'wb') as fo:
             pickle.dump(alignment, fo)
 
     if args.dump_all_tracks is not None:
@@ -449,6 +453,6 @@ def parse_args():
 
 def open_resource(filename, prefix):
     try:
-        return file(filename)
+        return open(filename)
     except IOError:
         return open_builtin(os.path.join(prefix, filename))
