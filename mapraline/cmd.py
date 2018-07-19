@@ -75,12 +75,12 @@ def main():
     keys['linkage_method'] = args.tree_linkage
     keys['waterman_eggert_iterations'] = args.num_preprofile_alignments
     keys['debug'] = args.debug
-    if args.merge_global:
-        keys['merge_mode'] = 'global'
-        keys['dist_mode'] = 'global'
-    else:
+    if args.merge_semiglobal:
         keys['merge_mode'] = 'semiglobal'
         keys['dist_mode'] = 'semiglobal'
+    else:
+        keys['merge_mode'] = 'global'
+        keys['dist_mode'] = 'global'
 
     if args.no_accelerate:
         keys['accelerate'] = False
@@ -431,8 +431,8 @@ def parse_args():
     group.add_argument('--msa-tree', dest="pregen_tree",
                         action="store_true", default=True,
                         help="do pre-generated tree mutliple alignment")
-    group.add_argument('--msa-adhoc',  dest="adhoc_tree",
-                        action="store_true", default=False,
+    group.add_argument('--msa-adhoc',  dest="pregen_tree",
+                        action="store_false", default=True,
                         help="do ad-hoc tree multiple alignment")
 
     group = parser.add_mutually_exclusive_group()
