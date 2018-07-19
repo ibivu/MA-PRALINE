@@ -6,7 +6,7 @@ A motif-aware multiple sequence alignment tool.
 
 ## Requirements
 
-* Python 2.7 (Python 3 support is forthcoming)
+* Python 2.7 / Python 3.6 (earlier 3.x versions may also work, but have not been tested)
 * An installation of PRALINE (https://github.com/ibivu/PRALINE)
 
 ## Instructions
