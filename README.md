@@ -1,6 +1,6 @@
 # Motif-Aware PRALINE (MA-PRALINE)
 
-A motif-aware multiple sequence alignment tool.
+A motif-aware multiple sequence alignment tool. An article accompanying this software has been provisionally accepted for publication in PLOS Computational Biology; it can be found [here](https://github.com/ibivu/MA-PRALINE-extras/blob/master/article/article.pdf). 
 
 # Installing MA-PRALINE
 
