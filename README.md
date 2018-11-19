@@ -1,6 +1,6 @@
 # Motif-Aware PRALINE (MA-PRALINE)
 
-A motif-aware multiple sequence alignment tool. An article accompanying this software has been provisionally accepted for publication in PLOS Computational Biology; it can be found [here](https://github.com/ibivu/MA-PRALINE-extras/blob/master/article/article.pdf). 
+A motif-aware multiple sequence alignment tool. An article accompanying this software has been published in PLOS Computational Biology [here](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006547).
 
 # Installing MA-PRALINE
 
@@ -15,10 +15,9 @@ You can install MA-PRALINE by cloning this repository and running (in a shell):
 
 `python setup.py install`
 
-A version will be uploaded to PyPI in the near future, which should make
-MA-PRALINE installable with:
+MA-PRALINE is also available on PyPI. You can install it with the following command:
 
-`pip install mapraline`
+`pip install ma-praline`
 
 # Extras
 
