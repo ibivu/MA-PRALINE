@@ -6,6 +6,7 @@ import csv
 from six.moves import range
 from six.moves import zip
 
+from praline import write_features_jalview
 from praline.container import Alphabet, ScoreMatrix, PlainTrack
 from praline.core import *
 
@@ -44,53 +45,8 @@ def write_motifs_jalview(f, sequences, trids, descriptions, match_color,
     :param spacer_color: the color of motif spacers
 
     """
-    if not isinstance(trids, list):
-        trids = [trids]
-    if not isinstance(descriptions, list):
-        descriptions = [descriptions]
+    colors = {u"M": match_color, u"S": spacer_color}
+    if isinstance(trids, list):
+        colors = [colors] * len(trids)
 
-    match_idx = ALPHABET_PROSITE.symbol_to_index(u"M")
-    spacer_idx = ALPHABET_PROSITE.symbol_to_index(u"S")
-
-    rows = []
-    rows.append(["match", match_color])
-    rows.append(["spacer", spacer_color])
-
-    for i, seq in enumerate(sequences):
-        name = seq.name.split()[0]
-        for trid, description in zip(trids, descriptions):
-            track = seq.get_track(trid)
-            if track.tid != PlainTrack.tid:
-                s = "can only write plain motif tracks to a Jalview " \
-                    "formatted file"
-                raise DataError(s)
-
-            if track.alphabet.aid != ALPHABET_PROSITE.aid:
-                s = "need a motif annotation alphabet to write to Jalview " \
-                    "format, but got an alphabet of type '{0}'"
-                raise DataError(s.format(track.alphabet.aid))
-
-            for j, symbol_idx in enumerate(track.values):
-                if symbol_idx == match_idx:
-                    type_ = "match"
-                elif symbol_idx == spacer_idx:
-                    type_ = "spacer"
-                else:
-                    continue
-
-                row = [description, name, "-1", str(j + 1), str(j + 1),
-                       type_]
-                rows.append(row)
-
-    lines = ["\t".join(row) for row in rows]
-
-    should_close = False
-    if isinstance(f, str):
-        f = codecs.open(f, 'w', 'ascii')
-        should_close = True
-
-    f.write("\n".join(lines))
-    f.write("\n")
-
-    if should_close:
-        f.close()
+    write_features_jalview(f, sequences, trids, descriptions, colors)
