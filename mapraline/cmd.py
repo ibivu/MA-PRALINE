@@ -395,8 +395,9 @@ def parse_args():
     parser.add_argument("--dump-all-tracks", type=str, default=None,
                         dest="dump_all_tracks",
                         help="write alignment files for all the tracks")
+
     parser.add_argument('-p', '--pattern', action='append', dest="patterns",
-                    required=True, type=pair,
+                    type=pair, default=[],
                     help="annotate this prosite pattern in the sequence " \
                          "(specify a number after a colon to override " \
                          "the global match boost score)")
